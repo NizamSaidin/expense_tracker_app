@@ -2,6 +2,7 @@ import 'package:expense_tracker_app/models/category.dart';
 import 'package:expense_tracker_app/models/expense.dart';
 import 'package:expense_tracker_app/providers/expense/expenses_provider.dart';
 import 'package:expense_tracker_app/providers/setting/setting_provider.dart';
+import 'package:expense_tracker_app/providers/statistic/statistic_provider.dart';
 import 'package:expense_tracker_app/utils/alert.dart';
 import 'package:expense_tracker_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +149,10 @@ class AddExpenseViewState extends ConsumerState<AddExpenseView> {
                       date: _dateController.text,
                       note: _noteController.text,
                     );
-                    ref.read(expensesProvider.notifier).createExpense(expense);
+                    ref.read(expensesProvider.notifier).createExpense(expense).whenComplete(() {
+                      ref.invalidate(expensesByDayProvider);
+                      ref.invalidate(expenseCategoryProvider);
+                    });
                     ref.read(settingProvider.notifier).updateMonthlyBudget(deductAmount: expense.amount!);
                     Navigator.pop(context);
                     Alert.showSnackbar(context, 'Expense successfully added');

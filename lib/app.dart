@@ -20,9 +20,7 @@ class App extends StatelessWidget {
       title: 'Expense Tracker App',
       debugShowCheckedModeBanner: false,
       theme: theme.light(),
-      darkTheme: theme.dark(),
       highContrastTheme: theme.lightHighContrast(),
-      highContrastDarkTheme: theme.darkHighContrast(),
       routes: {
         Constants.homeRoute: (context) => AppStartupWidget(onLoaded: (context) => const HomeView()),
         Constants.addExpenseRoute: (context) => const AddExpenseView(),

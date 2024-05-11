@@ -2,6 +2,7 @@ import 'package:expense_tracker_app/models/category.dart';
 import 'package:expense_tracker_app/models/expense.dart';
 import 'package:expense_tracker_app/providers/expense/expenses_provider.dart';
 import 'package:expense_tracker_app/providers/setting/setting_provider.dart';
+import 'package:expense_tracker_app/providers/statistic/statistic_provider.dart';
 import 'package:expense_tracker_app/utils/alert.dart';
 import 'package:expense_tracker_app/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +191,10 @@ class EditExpenseViewState extends ConsumerState<EditExpenseForm> {
                     onPressed: () async {
                       bool? isConfirm = await Alert.showConfirmationDialog(context: context, description: 'Are you sure you want to delete this expense?', title: 'Confirmation');
                       if (isConfirm == true) {
-                        await ref.read(expensesProvider.notifier).removeExpense(expense);
+                        await ref.read(expensesProvider.notifier).removeExpense(expense).whenComplete(() {
+                          ref.invalidate(expensesByDayProvider);
+                          ref.invalidate(expenseCategoryProvider);
+                        });
                         ref.read(settingProvider.notifier).updateMonthlyBudget(deductAmount: 0, oldAmount: expense.amount ?? 0);
                         if (context.mounted) {
                           Navigator.pop(context);
@@ -221,7 +225,10 @@ class EditExpenseViewState extends ConsumerState<EditExpenseForm> {
                           date: _dateController.text,
                           note: _noteController.text,
                         );
-                        ref.read(expensesProvider.notifier).updateExpense(id: expense.id!, expense: updatedExpenses);
+                        ref.read(expensesProvider.notifier).updateExpense(id: expense.id!, expense: updatedExpenses).whenComplete(() {
+                          ref.invalidate(expensesByDayProvider);
+                          ref.invalidate(expenseCategoryProvider);
+                        });
                         ref.read(settingProvider.notifier).updateMonthlyBudget(deductAmount: newAmount, oldAmount: oldAmount ?? 0);
                         Navigator.pop(context);
                       }

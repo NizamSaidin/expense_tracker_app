@@ -23,7 +23,9 @@ class SettingNotifier extends AsyncNotifier<Setting> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.watch(settingRepositoryProvider).updateSetting(setting);
-      return ref.watch(settingRepositoryProvider).getSetting();
+      Setting updatedSetting = await ref.watch(settingRepositoryProvider).getSetting();
+      updatedSetting = updatedSetting.copy(categories: state.value?.categories);
+      return Future.value(updatedSetting);
     });
   }
 
