@@ -70,7 +70,7 @@ class ExpenseListWidgetState extends ConsumerState<ExpenseListWidget> {
           child: expenses.when(
               data: (List<Expense> value) {
                 if (value.isEmpty) {
-                  if (selectedSortBy != Constants.expenseSortByList.first) {
+                  if (selectedCategories.isNotEmpty || selectedSortBy != Constants.expenseSortByList.first) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
