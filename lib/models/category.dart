@@ -64,9 +64,14 @@ class Category extends BaseModel<Category> {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'totalAmount': totalAmount,
       'recommendedPercentage': recommendedPercentage,
       'isFixed': isFixed,
     };
+  }
+
+  Map<String, dynamic> toSqlJson() {
+    return {'name': name};
   }
 
   Category fromGroupByJson(Map<String, dynamic> json) {

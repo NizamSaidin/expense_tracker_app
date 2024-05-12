@@ -62,10 +62,19 @@ class EditExpenseViewState extends ConsumerState<EditExpenseForm> {
     _amountController.text = expense.formattedAmount;
     _dateController.text = expense.date!;
     _noteController.text = expense.note!;
-    _selectedCategory = setting.categories.firstWhere((element) => element.name == expense.category);
+    _selectedCategory = getSelectedValue(setting.categories);
   }
 
   Expense get expense => widget.expense;
+
+  Category? getSelectedValue(List<Category> categories) {
+    int index = categories.indexWhere((element) => element.name == expense.category);
+    if (index != -1) {
+      return categories[index];
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +98,7 @@ class EditExpenseViewState extends ConsumerState<EditExpenseForm> {
                         border: OutlineInputBorder(),
                         isDense: true,
                       ),
-                      value: setting.categories.firstWhere((element) => element.name == expense.category),
+                      value: getSelectedValue(setting.categories),
                       items: setting.categories.map((Category value) {
                         return DropdownMenuItem<Category>(
                           value: value,

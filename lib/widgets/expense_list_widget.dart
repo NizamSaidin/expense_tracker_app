@@ -67,51 +67,73 @@ class ExpenseListWidgetState extends ConsumerState<ExpenseListWidget> {
         ),
         const SizedBox(height: 10),
         Expanded(
-          child: switch (expenses) {
-            AsyncData(:final value) => ListView.builder(
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  final Expense expense = value[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Constants.editExpenseRoute, arguments: expense.id);
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        title: Text(
-                          expense.formattedDate,
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                        subtitle: Text(
-                          expense.category ?? 'No category',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColor),
-                        ),
-                        trailing: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Text(
-                            '${setting.currency} ${expense.displayAmount}',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          child: expenses.when(
+              data: (List<Expense> value) {
+                if (value.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'You dont have any expenses yet.',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Constants.addExpenseRoute);
+                        },
+                        child: const Text('Add Expense'),
+                      ),
+                    ],
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: value.length,
+                  itemBuilder: (context, index) {
+                    final Expense expense = value[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Constants.editExpenseRoute, arguments: expense.id);
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          title: Text(
+                            expense.formattedDate,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                            maxLines: 2,
-                            textAlign: TextAlign.end,
-                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            expense.category ?? 'No category',
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColor),
+                          ),
+                          trailing: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              '${setting.currency} ${expense.displayAmount}',
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              maxLines: 2,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            AsyncError() => const Center(child: Text('Unable to load expenses')),
-            _ => const Center(child: CircularProgressIndicator()),
-          },
+                    );
+                  },
+                );
+              },
+              error: (e, st) => const Center(child: Text('Unable to load expenses')),
+              loading: () => const Center(child: CircularProgressIndicator())),
         ),
       ],
     );

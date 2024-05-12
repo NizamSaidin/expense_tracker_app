@@ -1,5 +1,6 @@
 import 'package:expense_tracker_app/models/category.dart';
 import 'package:expense_tracker_app/models/setting.dart';
+import 'package:expense_tracker_app/providers/category/category_repository_provider.dart';
 import 'package:expense_tracker_app/providers/setting/setting_repository_provider.dart';
 import 'package:expense_tracker_app/services/api/base_api.dart';
 import 'package:expense_tracker_app/services/api/category_api.dart';
@@ -13,7 +14,11 @@ class SettingNotifier extends AsyncNotifier<Setting> {
 
     if (response['status'] == APIResponse.success) {
       categories = Category().listFromJson(response['result']?['expenseCategories'] ?? []);
+      await ref.watch(categoryRepositoryProvider).addOrUpdateCategories(categories);
+    } else {
+      categories = await ref.watch(categoryRepositoryProvider).getCategories();
     }
+
     Setting setting = await ref.watch(settingRepositoryProvider).getSetting();
     setting = setting.copy(categories: categories);
     return setting;

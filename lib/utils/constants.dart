@@ -1,6 +1,6 @@
 class Constants {
   static const maxAmount = 9999999999.99;
-  static const List<String> currencyList = ['MYR', 'USD'];
+  static const List<String> currencyList = ['RM', 'USD'];
   static List<String> expenseSortByList = ['Date', 'Amount'];
 
   // Routes

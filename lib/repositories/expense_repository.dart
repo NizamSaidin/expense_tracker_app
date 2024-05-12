@@ -5,14 +5,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExpenseRepository {
-  static final ExpenseRepository _instance = ExpenseRepository._();
-
-  factory ExpenseRepository() => _instance;
-
-  ExpenseRepository._() {
-    _initialize();
-  }
-
   Database? _database;
 
   static String get _tableName => 'expenses';
@@ -24,7 +16,7 @@ class ExpenseRepository {
 
   Future<Database> _initialize() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'expenses.db');
+    final path = join(dbPath, '$_tableName.db');
 
     return await openDatabase(
       path,

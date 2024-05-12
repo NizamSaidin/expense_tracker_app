@@ -3,14 +3,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SettingRepository {
-  static final SettingRepository _instance = SettingRepository._();
-
-  factory SettingRepository() => _instance;
-
-  SettingRepository._() {
-    _initialize();
-  }
-
   Database? _database;
 
   static String get _tableName => 'settings';
@@ -22,7 +14,7 @@ class SettingRepository {
 
   Future<Database> _initialize() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'settings.db');
+    final path = join(dbPath, '$_tableName.db');
 
     return await openDatabase(
       path,
