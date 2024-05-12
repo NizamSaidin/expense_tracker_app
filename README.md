@@ -10,14 +10,14 @@ A mobile application that allows users to track their expenses.
 - [x] View current balance
 
 ## Screenshots
-![Alt text](/public/Screenshot_1715545406.png?raw=true "Home Page")
-![Alt text](/public/Screenshot_1715545641.png?raw=true "Home Page With Data")
-![Alt text](/public/Screenshot_1715545467.png?raw=true "Add Expense Page")
-![Alt text](/public/Screenshot_1715545634.png?raw=true "Statistic Page")
-![Alt text](/public/Screenshot_1715545691.png?raw=true "Filter Page")
+<img src="https://raw.githubusercontent.com/NizamSaidin/expense_tracker_app/master/public/Screenshot_1715545406.png" width="200" alt="Home Page"/>
+<img src="https://raw.githubusercontent.com/NizamSaidin/expense_tracker_app/master/public/Screenshot_1715545641.png" width="200" alt="Home Page With Data"/>
+<img src="https://raw.githubusercontent.com/NizamSaidin/expense_tracker_app/master/public/Screenshot_1715545467.png" width="200" alt="Add Expense Page"/>
+<img src="https://raw.githubusercontent.com/NizamSaidin/expense_tracker_app/master/public/Screenshot_1715545634.png" width="200" alt="Statistic Page"/>
+<img src="https://raw.githubusercontent.com/NizamSaidin/expense_tracker_app/master/public/Screenshot_1715545691.png" width="200" alt="Filter Page"/>
 
 ## APK
-[Click here to download](https://github.com/NizamSaidin/expense_tracker_app/tree/master/public/APK/app-release-1.0.0+1.apk)
+[Click here to download](https://github.com/NizamSaidin/expense_tracker_app/raw/master/public/APK/app-release-1.0.0+1.apk)
 
 ## Information
 
