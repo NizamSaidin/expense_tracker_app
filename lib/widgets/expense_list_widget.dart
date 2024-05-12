@@ -70,6 +70,29 @@ class ExpenseListWidgetState extends ConsumerState<ExpenseListWidget> {
           child: expenses.when(
               data: (List<Expense> value) {
                 if (value.isEmpty) {
+                  if (selectedSortBy != Constants.expenseSortByList.first) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No expenses found.',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            selectedCategories = [];
+                            selectedSortBy = Constants.expenseSortByList.first;
+                            ref.read(expensesProvider.notifier).filterRecord(sortBy: Constants.expenseSortByList.first);
+                          },
+                          child: const Text('Clear Filter'),
+                        ),
+                      ],
+                    );
+                  }
+
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
